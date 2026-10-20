@@ -1,0 +1,46 @@
+{
+  "title": "LAKE CONROE",
+  "location": {
+    "latitude": 30.402,
+    "longitude": -95.608,
+    "label": "Walden • Montgomery, Texas"
+  },
+  "timezone": "America/Chicago",
+  "temperature_unit": "fahrenheit",
+  "panels": {
+    "weather": true,
+    "hourly": true,
+    "forecast": true,
+    "lake": true
+  },
+  "server": {
+    "host": "127.0.0.1",
+    "port": 8080,
+    "cache_dir": ".cache/lake-conroe-live"
+  },
+  "weather": {
+    "provider": "open-meteo"
+  },
+  "lake": {
+    "usgs_station": "08067600",
+    "conservation_pool_ft": 201.0,
+    "conservation_pool_datum": "NGVD29"
+  },
+  "camera": {
+    "provider": "youtube",
+    "url": "https://www.youtube.com/embed/UqrwUKSkMEE",
+    "source_page": "https://lakeconroe.com/live-web-cams-on-lake-conroe/live-web-cam-abc-13-news/",
+    "discover_from_source": true,
+    "alternative_url": null,
+    "attribution": "ABC13 / LakeConroe.com",
+    "retry_seconds": 30,
+    "image_refresh_seconds": 60
+  },
+  "polling": {
+    "weather": 300,
+    "forecast": 1800,
+    "lake": 180,
+    "alerts": 120,
+    "camera": 1800
+  }
+}

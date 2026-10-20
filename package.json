@@ -1,0 +1,12 @@
+{
+  "name": "lake-conroe-live-browser-checks",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Optional browser verification only; the kiosk runtime does not use Node.js.",
+  "scripts": {
+    "test": "node scripts/test-display.mjs && node scripts/test-camera.mjs"
+  },
+  "devDependencies": {
+    "playwright": "1.62.1"
+  }
+}

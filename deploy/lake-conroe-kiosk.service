@@ -1,0 +1,18 @@
+[Unit]
+Description=Lake Conroe Live Chromium kiosk
+After=graphical-session.target
+PartOf=graphical-session.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+WorkingDirectory=@ROOT@
+Environment=LAKE_CONROE_CONFIG=@CONFIG@
+ExecStart=@ROOT@/scripts/start-kiosk.sh
+Restart=always
+RestartSec=8
+TimeoutStopSec=15
+KillMode=control-group
+
+[Install]
+WantedBy=graphical-session.target

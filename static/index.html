@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#071526">
+  <meta name="description" content="Live camera, weather, forecasts and lake readings for Walden on Lake Conroe, Texas.">
+  <title>Lake Conroe Live</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230d2741'/%3E%3Cpath d='M8 28q8-12 16 0t16 0t16 0M8 40q8-12 16 0t16 0t16 0' fill='none' stroke='%2372d2f6' stroke-width='5'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/static/styles.css">
+  <script type="module" src="/static/app.js"></script>
+</head>
+<body>
+  <div class="dashboard">
+    <header class="masthead">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M5 20q6-8 12 0t12 0t12 0M5 29q6-8 12 0t12 0t12 0"/></svg></div>
+        <div><div class="eyebrow">YOUR WINDOW TO THE WATER</div><h1 id="dashboard-title">LAKE CONROE</h1><p id="location">Walden • Montgomery, Texas</p></div>
+      </div>
+      <div class="header-right"><div class="edition"><span class="status-dot"></span> LAKE CONROE LIVE</div><div class="clock" id="clock">--:-- <span>--</span></div><div class="date" id="date">America/Chicago</div></div>
+    </header>
+
+    <main class="main-grid">
+      <section class="camera-panel panel" aria-label="Lake Conroe camera">
+        <div class="camera-top"><div><span class="section-kicker">THE LAKE, RIGHT NOW</span><h2>Walden on Lake Conroe</h2></div><span id="camera-status" class="camera-status" data-state="connecting">CONNECTING</span></div>
+        <div class="camera-stage" id="camera-stage">
+          <div class="camera-player" id="camera-player"></div>
+          <div class="camera-placeholder" id="camera-placeholder" aria-hidden="true"><svg viewBox="0 0 160 100"><path d="M30 49h71v-25H30zM101 32l30-16v48l-30-15M20 82q15-12 30 0t30 0t30 0t30 0"/></svg></div>
+          <div class="camera-overlay"><p id="camera-message" role="status">Connecting to the official camera…</p><button id="camera-retry" type="button" hidden>Retry camera</button></div>
+          <div class="camera-corner top-left"></div><div class="camera-corner bottom-right"></div>
+        </div>
+        <div class="camera-bottom"><div class="camera-caption"><span class="location-pin" aria-hidden="true">⌖</span><div><strong>WALDEN, TEXAS</strong><span>A little closer to the lake.</span></div></div><div class="attribution">CAMERA PROVIDED BY<br><strong id="camera-attribution">ABC13 / LakeConroe.com</strong></div></div>
+        <div class="camera-note" id="camera-note">Official embedded camera • Playback status checked by the player</div>
+      </section>
+
+      <aside class="information" aria-label="Weather and lake information">
+        <section class="panel weather-panel" id="panel-weather">
+          <div class="panel-heading"><h2>Current weather</h2><span class="source-badge" id="weather-badge">CONNECTING</span></div>
+          <div class="weather-main"><div class="current-temp"><span id="temperature">--</span><span class="degree-unit" id="temperature-unit">°F</span></div><div class="current-condition"><div id="weather-icon" class="large-icon"></div><span id="condition">Waiting for weather</span></div></div>
+          <div class="weather-sub"><span>Feels like <strong id="feels-like">--°</strong></span><span><span class="high-arrow">↑</span> <strong id="today-high">--°</strong> <span class="low-arrow">↓</span> <strong id="today-low">--°</strong></span></div>
+          <div class="weather-metrics"><div><span>HUMIDITY</span><strong id="humidity">--<small>%</small></strong></div><div><span>WIND</span><strong id="wind">--<small> MPH</small></strong></div><div><span>PRESSURE</span><strong id="pressure">--<small> inHg</small></strong></div><div><span>UV INDEX</span><strong id="uv">--</strong></div></div>
+          <div class="source-line" id="weather-source">Open-Meteo • modeled weather · no successful refresh</div>
+        </section>
+
+        <section class="panel hourly-panel" id="panel-hourly">
+          <div class="panel-heading"><h2>Next 6 hours</h2><span class="panel-label">HOURLY FORECAST</span></div>
+          <div id="hourly" class="hourly-strip" aria-label="Next six hours forecast"></div>
+        </section>
+
+        <section class="panel forecast-panel" id="panel-forecast">
+          <div class="panel-heading"><h2>3-day outlook</h2><span class="source-badge" id="forecast-badge">CONNECTING</span></div>
+          <div id="forecast" class="forecast-strip"></div>
+          <div class="source-line" id="forecast-source">Open-Meteo • no successful refresh</div>
+        </section>
+
+        <section class="panel lake-panel" id="panel-lake">
+          <div class="panel-heading"><h2><span class="lake-heading-icon" aria-hidden="true">≋</span> Lake conditions</h2><span class="source-badge" id="lake-badge">CONNECTING</span></div>
+          <div class="lake-grid"><div class="lake-metric lake-level"><span>LAKE ELEVATION</span><strong id="lake-elevation">--<small> ft</small></strong><em id="lake-datum">Datum unavailable</em></div><div class="lake-metric"><span>WATER TEMP</span><strong id="lake-temperature">--<small> °F</small></strong><em id="lake-water-time">No observation</em></div><div class="lake-metric"><span>24-HOUR RAIN</span><strong id="lake-rain">--<small> in</small></strong><em id="lake-rain-time">Observed rainfall only</em></div><div class="lake-metric"><span>DAM OUTFLOW</span><strong id="lake-outflow">--<small> CFS</small></strong><em id="lake-outflow-time">No observation</em></div></div>
+          <div class="lake-reference"><span id="lake-pool">Conservation pool reference: 201.00 ft NGVD29</span><span id="lake-wind">Wind: unavailable</span></div>
+          <div class="source-line" id="lake-source">SJRA / USGS • no successful refresh</div>
+        </section>
+      </aside>
+    </main>
+
+    <footer class="footer">
+      <div class="alert-bar" id="alert-bar" data-severity="unknown"><div class="alert-symbol" id="alert-symbol" aria-hidden="true">○</div><div class="alert-content"><strong id="alert-title">Checking local weather alerts</strong><span id="alert-detail">National Weather Service · Walden area</span></div><span id="alerts-time" class="alerts-time">--</span></div>
+      <div class="footer-meta"><div class="solar"><span id="sunrise-icon"></span><span>SUNRISE <strong id="sunrise">--</strong></span><span class="meta-divider"></span><span id="sunset-icon"></span><span>SUNSET <strong id="sunset">--</strong></span></div><span class="footer-location" id="footer-location">WALDEN · LAKE CONROE · TEXAS</span><div class="refresh-status"><span class="status-dot" id="connection-dot"></span><span id="refresh-time">Waiting for first successful refresh</span><button class="fullscreen" id="fullscreen" title="Enter fullscreen" aria-label="Enter fullscreen">⛶</button></div></div>
+    </footer>
+  </div>
+</body>
+</html>

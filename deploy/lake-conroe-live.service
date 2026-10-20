@@ -1,0 +1,27 @@
+[Unit]
+Description=Lake Conroe Live local dashboard
+After=network-online.target
+Wants=network-online.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+User=@USER@
+Group=@GROUP@
+WorkingDirectory=@ROOT@
+Environment=PYTHONUNBUFFERED=1
+Environment=LAKE_CONROE_CONFIG=@CONFIG@
+Environment=LAKE_CONROE_CACHE_DIR=@ROOT@/.cache/lake-conroe-live
+ExecStart=@ROOT@/.venv/bin/python -m app
+Restart=always
+RestartSec=5
+TimeoutStopSec=20
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=read-only
+ReadWritePaths=@ROOT@/.cache
+UMask=0077
+
+[Install]
+WantedBy=multi-user.target
