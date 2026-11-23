@@ -33,6 +33,10 @@ html, body {
 @supports (-webkit-touch-callout: none) {
   html, body { background: #071526; }
   .dashboard { padding-top: calc(env(safe-area-inset-top, 0px) + 1rem); }
+
+  @media (orientation: portrait) {
+    .dashboard { padding-top: calc(env(safe-area-inset-top, 0px) + 2rem); }
+  }
 }
 
 .main-grid, .information {

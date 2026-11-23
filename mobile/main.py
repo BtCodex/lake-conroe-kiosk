@@ -18,7 +18,7 @@ def mobile_document() -> str:
     html = html.replace("</head>", """  <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <link rel="manifest" href="/manifest.webmanifest">
-  <link rel="stylesheet" href="/mobile/mobile.css?v=3">
+  <link rel="stylesheet" href="/mobile/mobile.css?v=4">
   <script type="module" src="/mobile/mobile.js?v=3"></script>
 </head>""", 1)
 
