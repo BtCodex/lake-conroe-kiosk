@@ -3,6 +3,48 @@ new MutationObserver(() => {
   if (title.textContent !== 'Lake Dashboard') title.textContent = 'Lake Dashboard';
 }).observe(title, {childList: true, characterData: true, subtree: true});
 
+const installPanel = document.getElementById('install-app');
+const installButton = document.getElementById('install-button');
+const installHelp = document.getElementById('install-help');
+let installPrompt;
+
+if (/Android/i.test(navigator.userAgent) && !matchMedia('(display-mode: standalone)').matches) {
+  installPanel.hidden = false;
+}
+
+window.addEventListener('beforeinstallprompt', event => {
+  event.preventDefault();
+  installPrompt = event;
+  installPanel.hidden = false;
+});
+
+window.addEventListener('appinstalled', () => {
+  installPrompt = null;
+  installPanel.hidden = true;
+});
+
+function showInstallHelp(show) {
+  installHelp.hidden = !show;
+  installButton.setAttribute('aria-expanded', String(show));
+}
+
+installButton.addEventListener('click', async () => {
+  if (!installPrompt) {
+    showInstallHelp(installHelp.hidden);
+    return;
+  }
+
+  const prompt = installPrompt;
+  installPrompt = null;
+  showInstallHelp(false);
+  try {
+    await prompt.prompt();
+    if ((await prompt.userChoice).outcome === 'accepted') installPanel.hidden = true;
+  } catch {
+    showInstallHelp(true);
+  }
+});
+
 const cameraButton = document.getElementById('camera-fullscreen');
 const cameraPanel = cameraButton.closest('.camera-panel');
 

@@ -50,8 +50,9 @@ ask you to sign in.
 ## Install on the Moto G 5G (2024)
 
 1. Open the deployment's HTTPS URL in Chrome.
-2. Tap **⋮ → Add to Home screen → Install**. Some Chrome versions show
-   **Install app** directly in the menu.
+2. Tap **Install app** on the page or use Chrome's **⋮** menu. Depending on
+   your Chrome version, look for **Add to Home screen**, **Install and create
+   shortcut**, or **Install app**, then choose **Install**.
 3. Confirm **Lake Dashboard** and tap its lake-wave icon from the home screen.
    The installed app opens without Chrome's address bar.
 

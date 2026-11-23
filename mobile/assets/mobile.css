@@ -22,7 +22,7 @@ html, body {
   height: auto;
   min-height: 100dvh;
   margin-inline: auto;
-  grid-template-rows: auto auto auto;
+  grid-template-rows: none;
   align-content: start;
   gap: .75rem;
   padding: max(var(--gutter), env(safe-area-inset-top)) var(--right)
@@ -90,11 +90,8 @@ h1 { font-size: 1.3rem; letter-spacing: .035em; overflow-wrap: anywhere; }
 }
 .attribution strong { font-weight: 600; }
 .camera-note { padding: .35rem var(--gutter); }
-.camera-fullscreen {
-  order: 1;
-  flex: none;
+.mobile-button {
   min-height: 2.75rem;
-  margin-left: auto;
   border: 1px solid #35546d;
   border-radius: .35rem;
   padding: .35rem .6rem;
@@ -102,6 +99,15 @@ h1 { font-size: 1.3rem; letter-spacing: .035em; overflow-wrap: anywhere; }
   color: var(--ink);
   font-size: .875rem;
   cursor: pointer;
+}
+
+.camera-fullscreen { order: 1; flex: none; margin-left: auto; }
+
+.install-app { display: grid; justify-items: start; gap: .4rem; }
+.install-app p { margin: 0; color: var(--mobile-muted); font-size: .875rem; line-height: 1.45; }
+
+@media (display-mode: standalone) {
+  .install-app { display: none; }
 }
 
 .camera-panel:fullscreen {
