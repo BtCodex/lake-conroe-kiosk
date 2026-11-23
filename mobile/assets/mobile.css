@@ -256,3 +256,52 @@ h1 { font-size: 1.3rem; letter-spacing: .035em; overflow-wrap: anywhere; }
   .hour-temp { font-size: 1rem; }
   .hour-trend { font-size: .6875rem; }
 }
+
+@media (orientation: landscape) and (min-width: 1260px) and (min-height: 760px) {
+  .dashboard { display: flex; flex-direction: column; }
+  .footer { margin-top: auto; }
+  .weather-main { flex: 1 0 auto; }
+  .current-temp { font-size: 4.5rem; }
+  .weather-metrics strong { font-size: 1.5rem; }
+  .lake-metric strong { font-size: 1.8rem; }
+}
+
+@media (orientation: landscape) and (min-width: 1400px) and (min-height: 880px) and (max-aspect-ratio: 17/10) {
+  @supports (grid-template-columns: subgrid) {
+    .main-grid {
+      grid-template-columns: minmax(0, 1.1fr) repeat(2, minmax(0, .5fr));
+      grid-template-rows: auto auto;
+    }
+    .camera-panel { grid-column: 1; grid-row: 1; position: relative; top: auto; }
+    .information {
+      grid-column: 1 / -1;
+      grid-row: 1 / -1;
+      grid-template-columns: subgrid;
+      grid-template-rows: subgrid !important;
+      pointer-events: none;
+    }
+    .information > .panel { pointer-events: auto; }
+    .weather-panel { grid-column: 2; grid-row: 1; }
+    .lake-panel { grid-column: 3; grid-row: 1; }
+    .hourly-panel { grid-column: 1; grid-row: 2; }
+    .forecast-panel { grid-column: 2 / 4; grid-row: 2; }
+    .current-temp { font-size: 5.25rem; }
+    .current-condition { flex-direction: column; align-items: end; }
+    .large-icon svg { width: 3.75rem; height: 3.25rem; }
+    .weather-metrics, .lake-grid { gap: .55rem; }
+    .weather-metrics > div, .lake-metric {
+      padding: .5rem;
+      border: 1px solid var(--line);
+      border-radius: .35rem;
+      background: var(--panel);
+    }
+    .lake-grid { align-items: stretch; }
+    .lake-metric { display: flex; flex-direction: column; justify-content: center; }
+    .lake-metric strong { font-size: 2rem; }
+    .hour-temp, .day-temperatures { font-size: 1.35rem; }
+    .hour-icon svg, .day-icon svg { width: 2rem; height: 1.7rem; }
+    .forecast-day { grid-template-columns: auto minmax(0, 1fr); column-gap: .5rem; }
+    .day-icon { grid-row: 2 / 4; }
+    .forecast-day .rain { grid-column: 2; }
+  }
+}
