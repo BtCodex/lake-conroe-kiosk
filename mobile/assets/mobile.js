@@ -3,6 +3,15 @@ new MutationObserver(() => {
   if (title.textContent !== 'Lake Dashboard') title.textContent = 'Lake Dashboard';
 }).observe(title, {childList: true, characterData: true, subtree: true});
 
+const tallTablet = matchMedia('(min-width: 1400px) and (min-height: 880px) and (max-aspect-ratio: 17/10)');
+function updateTabletLayout() {
+  const dashboardFullscreen = document.fullscreenElement === document.documentElement;
+  document.documentElement.classList.toggle('tablet-reflow', !dashboardFullscreen || tallTablet.matches);
+}
+tallTablet.addEventListener('change', updateTabletLayout);
+document.addEventListener('fullscreenchange', updateTabletLayout);
+updateTabletLayout();
+
 const installPanel = document.getElementById('install-app');
 const installButton = document.getElementById('install-button');
 const installHelp = document.getElementById('install-help');
