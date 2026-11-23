@@ -80,7 +80,7 @@ h1 { font-size: 1.3rem; letter-spacing: .035em; overflow-wrap: anywhere; }
 .camera-overlay { margin-top: 2.5rem; }
 .camera-overlay p { font-size: 1rem; line-height: 1.35; }
 .camera-overlay button { min-height: 2.75rem; margin-top: .4rem; font-size: .875rem; }
-.camera-bottom { gap: .5rem; padding: .25rem var(--gutter); }
+.camera-bottom { flex-wrap: wrap; gap: .5rem; padding: .25rem var(--gutter); }
 .attribution { text-align: left; }
 .attribution, .attribution strong, .camera-note {
   color: var(--mobile-muted);
@@ -101,7 +101,7 @@ h1 { font-size: 1.3rem; letter-spacing: .035em; overflow-wrap: anywhere; }
   cursor: pointer;
 }
 
-.camera-fullscreen { order: 1; flex: none; margin-left: auto; }
+.camera-actions { order: 1; display: flex; flex-wrap: wrap; gap: .4rem; margin-left: auto; }
 
 .install-app { display: grid; justify-items: start; gap: .4rem; }
 .install-app p { margin: 0; color: var(--mobile-muted); font-size: .875rem; line-height: 1.45; }

@@ -3,7 +3,7 @@
 import os
 from pathlib import Path
 
-from fastapi.responses import FileResponse, HTMLResponse
+from fastapi.responses import FileResponse, HTMLResponse, Response
 from fastapi.staticfiles import StaticFiles
 
 from app.config import ROOT, load_config
@@ -15,10 +15,11 @@ MOBILE = Path(__file__).resolve().parent
 def mobile_document() -> str:
     html = (ROOT / "static/index.html").read_text(encoding="utf-8")
     html = html.replace("<title>Lake Conroe Live</title>", "<title>Lake Dashboard</title>", 1)
+    html = html.replace('src="/static/app.js"', 'src="/mobile/dashboard.js?v=6"', 1)
     html = html.replace("</head>", """  <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <link rel="manifest" href="/manifest.webmanifest">
-  <link rel="stylesheet" href="/mobile/mobile.css?v=5">
+  <link rel="stylesheet" href="/mobile/mobile.css?v=6">
   <script type="module" src="/mobile/mobile.js?v=5"></script>
 </head>""", 1)
 
@@ -38,9 +39,11 @@ def mobile_document() -> str:
     html = html.replace('    </footer>', alert + '    </footer>', 1)
 
     camera_bottom = '<div class="camera-bottom">'
-    camera_button = ('<button class="mobile-button camera-fullscreen" id="camera-fullscreen" type="button" '
-                     'aria-controls="camera-stage" hidden>Full screen</button>')
-    html = html.replace(camera_bottom, camera_bottom + camera_button, 1)
+    camera_actions = ('''<div class="camera-actions">
+          <button class="mobile-button" id="camera-go-live" type="button" aria-controls="camera-stage" hidden>Go live</button>
+          <button class="mobile-button" id="camera-fullscreen" type="button" aria-controls="camera-stage" hidden>Full screen</button>
+        </div>''')
+    html = html.replace(camera_bottom, camera_bottom + camera_actions, 1)
 
     rainfall_link = ('<a class="rainfall-link" target="_blank" rel="noopener" '
                      'href="https://sanjacinto.onerain.com/dashboard/?'
@@ -57,6 +60,9 @@ def create_mobile_app(*, providers=None, cache_dir=None):
     application = create_app(settings, providers=providers, cache_dir=directory)
     application.title = "Lake Dashboard"
     document = mobile_document()
+    dashboard_script = (ROOT / "static/app.js").read_text(encoding="utf-8")
+    dashboard_script = dashboard_script.replace("from './camera.js'", "from '/mobile/live-camera.js?v=6'", 1)
+    dashboard_script = dashboard_script.replace("from './icons.js'", "from '/static/icons.js'", 1)
 
     # Replace the index on this app instance while keeping the original API and static routes.
     routes = application.router.routes
@@ -75,6 +81,10 @@ def create_mobile_app(*, providers=None, cache_dir=None):
     async def service_worker():
         return FileResponse(MOBILE / "assets/sw.js", media_type="text/javascript",
                             headers={"Cache-Control": "no-cache"})
+
+    @application.get("/mobile/dashboard.js", include_in_schema=False)
+    async def mobile_dashboard_script():
+        return Response(dashboard_script, media_type="text/javascript", headers={"Cache-Control": "no-cache"})
 
     application.mount("/mobile", StaticFiles(directory=MOBILE / "assets"), name="mobile")
     return application
