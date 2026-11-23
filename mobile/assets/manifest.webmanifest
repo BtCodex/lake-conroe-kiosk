@@ -1,0 +1,17 @@
+{
+  "id": "/",
+  "name": "Lake Dashboard",
+  "short_name": "Lake Dashboard",
+  "description": "Live camera, weather, and lake readings for Walden on Lake Conroe.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#071421",
+  "theme_color": "#071526",
+  "icons": [
+    {"src": "/mobile/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
+    {"src": "/mobile/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"},
+    {"src": "/mobile/icon-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+  ]
+}

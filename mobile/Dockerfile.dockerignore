@@ -1,0 +1,13 @@
+**
+!requirements.txt
+!app/
+!app/**/*.py
+!static/
+!static/**
+!config/
+!config/settings.example.json
+!mobile/
+!mobile/__init__.py
+!mobile/main.py
+!mobile/assets/
+!mobile/assets/**

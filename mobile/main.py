@@ -1,0 +1,70 @@
+"""Serve a phone layout with the original dashboard's data API and widgets."""
+
+import os
+from pathlib import Path
+
+from fastapi.responses import FileResponse, HTMLResponse
+from fastapi.staticfiles import StaticFiles
+
+from app.config import ROOT, load_config
+from app.main import create_app
+
+MOBILE = Path(__file__).resolve().parent
+
+
+def mobile_document() -> str:
+    html = (ROOT / "static/index.html").read_text(encoding="utf-8")
+    html = html.replace('content="width=device-width,initial-scale=1"',
+                        'content="width=device-width,initial-scale=1,viewport-fit=cover"', 1)
+    html = html.replace("<title>Lake Conroe Live</title>", "<title>Lake Dashboard</title>", 1)
+    html = html.replace("</head>", """  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="stylesheet" href="/mobile/mobile.css">
+  <script type="module" src="/mobile/mobile.js"></script>
+</head>""", 1)
+
+    # Move the existing alert strip above the camera without rewriting its markup.
+    alert_start = html.index('      <div class="alert-bar"')
+    alert_end = html.index('      <div class="footer-meta"', alert_start)
+    alert = html[alert_start:alert_end]
+    html = html[:alert_start] + html[alert_end:]
+    html = html.replace('    <main class="main-grid">', alert.removeprefix('  ') + '\n    <main class="main-grid">', 1)
+
+    rainfall_link = ('<a class="rainfall-link" target="_blank" rel="noopener" '
+                     'href="https://sanjacinto.onerain.com/dashboard/?'
+                     'dashboard=c03aab24-7518-419b-9dfa-b151879a06c8&amp;refresh=60&amp;scroll=4772">'
+                     'San Jacinto OneRain</a>')
+    return html.replace('<div class="source-line" id="lake-source">',
+                        rainfall_link + '\n          <div class="source-line" id="lake-source">', 1)
+
+
+def create_mobile_app(*, providers=None, cache_dir=None):
+    settings = load_config(os.environ.get("LAKE_DASHBOARD_CONFIG") or ROOT / "config/settings.example.json")
+    directory = Path(cache_dir or os.environ.get("LAKE_DASHBOARD_CACHE_DIR")
+                     or Path.home() / ".cache/lake-dashboard-mobile").resolve()
+    application = create_app(settings, providers=providers, cache_dir=directory)
+    application.title = "Lake Dashboard"
+    document = mobile_document()
+
+    # Replace the index on this app instance while keeping the original API and static routes.
+    routes = application.router.routes
+    routes.remove(next(route for route in routes if route.path == "/"))
+
+    @application.get("/", include_in_schema=False)
+    async def index():
+        return HTMLResponse(document, headers={"Cache-Control": "no-cache"})
+
+    @application.get("/manifest.webmanifest", include_in_schema=False)
+    async def manifest():
+        return FileResponse(MOBILE / "assets/manifest.webmanifest", media_type="application/manifest+json",
+                            headers={"Cache-Control": "no-cache"})
+
+    @application.get("/sw.js", include_in_schema=False)
+    async def service_worker():
+        return FileResponse(MOBILE / "assets/sw.js", media_type="text/javascript",
+                            headers={"Cache-Control": "no-cache"})
+
+    application.mount("/mobile", StaticFiles(directory=MOBILE / "assets"), name="mobile")
+    return application
+
+
+app = create_mobile_app()
