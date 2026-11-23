@@ -22,11 +22,17 @@ html, body {
   height: auto;
   min-height: 100dvh;
   margin-inline: auto;
-  grid-template-rows: auto auto auto auto;
+  grid-template-rows: auto auto auto;
   align-content: start;
   gap: .75rem;
   padding: max(var(--gutter), env(safe-area-inset-top)) var(--right)
     max(var(--gutter), env(safe-area-inset-bottom)) var(--left);
+}
+
+/* Keep the masthead clear of the iPhone's status-bar material. */
+@supports (-webkit-touch-callout: none) {
+  html, body { background: #071526; }
+  .dashboard { padding-top: calc(env(safe-area-inset-top, 0px) + 1rem); }
 }
 
 .main-grid, .information {

@@ -14,20 +14,20 @@ MOBILE = Path(__file__).resolve().parent
 
 def mobile_document() -> str:
     html = (ROOT / "static/index.html").read_text(encoding="utf-8")
-    html = html.replace('content="width=device-width,initial-scale=1"',
-                        'content="width=device-width,initial-scale=1,viewport-fit=cover"', 1)
     html = html.replace("<title>Lake Conroe Live</title>", "<title>Lake Dashboard</title>", 1)
-    html = html.replace("</head>", """  <link rel="manifest" href="/manifest.webmanifest">
-  <link rel="stylesheet" href="/mobile/mobile.css?v=2">
-  <script type="module" src="/mobile/mobile.js?v=2"></script>
+    html = html.replace("</head>", """  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="stylesheet" href="/mobile/mobile.css?v=3">
+  <script type="module" src="/mobile/mobile.js?v=3"></script>
 </head>""", 1)
 
-    # Move the existing alert strip above the camera without rewriting its markup.
+    # Place the existing alert strip after the footer readings.
     alert_start = html.index('      <div class="alert-bar"')
     alert_end = html.index('      <div class="footer-meta"', alert_start)
     alert = html[alert_start:alert_end]
     html = html[:alert_start] + html[alert_end:]
-    html = html.replace('    <main class="main-grid">', alert.removeprefix('  ') + '\n    <main class="main-grid">', 1)
+    html = html.replace('    </footer>', alert + '    </footer>', 1)
 
     camera_bottom = '<div class="camera-bottom">'
     camera_button = ('<button class="camera-fullscreen" id="camera-fullscreen" type="button" '
