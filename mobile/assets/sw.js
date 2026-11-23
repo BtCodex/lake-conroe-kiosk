@@ -1,8 +1,8 @@
-const cacheName = 'lake-dashboard-shell-v6';
+const cacheName = 'lake-dashboard-shell-v7';
 const shell = [
   '/', '/static/styles.css', '/static/camera.js', '/static/icons.js',
   '/mobile/dashboard.js?v=6', '/mobile/live-camera.js?v=6',
-  '/mobile/mobile.css?v=6', '/mobile/mobile.js?v=5', '/manifest.webmanifest',
+  '/mobile/mobile.css?v=7', '/mobile/mobile.js?v=5', '/manifest.webmanifest',
   '/mobile/icon-192.png', '/mobile/icon-512.png', '/mobile/icon-maskable.png',
 ];
 
