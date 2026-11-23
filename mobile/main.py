@@ -18,8 +18,8 @@ def mobile_document() -> str:
                         'content="width=device-width,initial-scale=1,viewport-fit=cover"', 1)
     html = html.replace("<title>Lake Conroe Live</title>", "<title>Lake Dashboard</title>", 1)
     html = html.replace("</head>", """  <link rel="manifest" href="/manifest.webmanifest">
-  <link rel="stylesheet" href="/mobile/mobile.css">
-  <script type="module" src="/mobile/mobile.js"></script>
+  <link rel="stylesheet" href="/mobile/mobile.css?v=2">
+  <script type="module" src="/mobile/mobile.js?v=2"></script>
 </head>""", 1)
 
     # Move the existing alert strip above the camera without rewriting its markup.
@@ -28,6 +28,11 @@ def mobile_document() -> str:
     alert = html[alert_start:alert_end]
     html = html[:alert_start] + html[alert_end:]
     html = html.replace('    <main class="main-grid">', alert.removeprefix('  ') + '\n    <main class="main-grid">', 1)
+
+    camera_bottom = '<div class="camera-bottom">'
+    camera_button = ('<button class="camera-fullscreen" id="camera-fullscreen" type="button" '
+                     'aria-controls="camera-stage" hidden>Full screen</button>')
+    html = html.replace(camera_bottom, camera_bottom + camera_button, 1)
 
     rainfall_link = ('<a class="rainfall-link" target="_blank" rel="noopener" '
                      'href="https://sanjacinto.onerain.com/dashboard/?'

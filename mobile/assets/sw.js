@@ -1,12 +1,12 @@
-const cacheName = 'lake-dashboard-shell-v1';
+const cacheName = 'lake-dashboard-shell-v2';
 const shell = [
   '/', '/static/styles.css', '/static/app.js', '/static/camera.js', '/static/icons.js',
-  '/mobile/mobile.css', '/mobile/mobile.js', '/manifest.webmanifest',
+  '/mobile/mobile.css?v=2', '/mobile/mobile.js?v=2', '/manifest.webmanifest',
   '/mobile/icon-192.png', '/mobile/icon-512.png', '/mobile/icon-maskable.png',
 ];
 
 self.addEventListener('install', event => {
-  event.waitUntil(caches.open(cacheName).then(cache => cache.addAll(shell)));
+  event.waitUntil(caches.open(cacheName).then(cache => cache.addAll(shell)).then(() => self.skipWaiting()));
 });
 
 self.addEventListener('activate', event => {
@@ -21,8 +21,8 @@ self.addEventListener('activate', event => {
 self.addEventListener('fetch', event => {
   const {request} = event;
   const url = new URL(request.url);
-  if (request.method !== 'GET' || url.origin !== self.location.origin || !shell.includes(url.pathname)) return;
-  if (url.search && request.mode !== 'navigate') return;
+  const key = request.mode === 'navigate' ? url.pathname : url.pathname + url.search;
+  if (request.method !== 'GET' || url.origin !== self.location.origin || !shell.includes(key)) return;
 
   // Live readings and the camera always use their existing network paths.
   event.respondWith((async () => {
@@ -31,10 +31,10 @@ self.addEventListener('fetch', event => {
     try {
       response = await fetch(request);
     } catch {
-      return await cache.match(url.pathname) || Response.error();
+      return await cache.match(key) || Response.error();
     }
     if (response.ok && !response.redirected) {
-      await cache.put(url.pathname, response.clone()).catch(() => {});
+      await cache.put(key, response.clone()).catch(() => {});
     }
     return response;
   })());

@@ -1,9 +1,10 @@
 # Lake Dashboard
 
 The Moto G 5G (2024) app reuses the Lake Conroe kiosk's widget markup, styles,
-scripts, Python providers, and polling. Its mobile entry point serves a compact,
-scrollable portrait layout and puts the camera alongside the readings in
-landscape. The app runs on its own origin and has its own data cache.
+scripts, Python providers, and polling. The portrait layout gives the camera the
+full screen width and keeps readings large in scrollable cards. Landscape puts
+the camera alongside the readings. The app runs on its own origin and has its
+own data cache.
 
 ## Local run
 
@@ -52,5 +53,8 @@ ask you to sign in.
 2. Tap **⋮ → Add to Home screen → Install**. Some Chrome versions show
    **Install app** directly in the menu.
 3. Confirm **Lake Dashboard** and tap its lake-wave icon from the home screen.
-   The installed app opens without Chrome's address bar and follows your phone's
-   rotation setting.
+   The installed app opens without Chrome's address bar.
+
+Tap **Full screen** below the camera to enlarge the video. Chrome on Android
+can rotate the camera to landscape in full-screen mode. Tap **Exit full screen**
+or use Android's Back button to return to the dashboard.
